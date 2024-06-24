@@ -1,0 +1,27 @@
+{
+  "groups": [
+    {
+      "name": "webpush",
+      "type": "org.sky.WebPush.Config.WebPushProperties",
+      "sourceType": "org.sky.WebPush.Config.WebPushProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "webpush.mode",
+      "type": "java.lang.String",
+      "sourceType": "org.sky.WebPush.Config.WebPushProperties"
+    },
+    {
+      "name": "webpush.port",
+      "type": "java.lang.Integer",
+      "sourceType": "org.sky.WebPush.Config.WebPushProperties"
+    },
+    {
+      "name": "webpush.url",
+      "type": "java.lang.String",
+      "sourceType": "org.sky.WebPush.Config.WebPushProperties"
+    }
+  ],
+  "hints": []
+}
