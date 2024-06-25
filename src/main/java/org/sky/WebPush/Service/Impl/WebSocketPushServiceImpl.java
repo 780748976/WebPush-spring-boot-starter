@@ -6,7 +6,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.sky.WebPush.Global.ChannelGlobal;
 import org.sky.WebPush.Service.PushService;
 
-public class PushServiceImpl implements PushService {
+public class WebSocketPushServiceImpl implements PushService {
 
     private final Gson gson = new Gson();
     //推送消息

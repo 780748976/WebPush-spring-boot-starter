@@ -1,10 +1,9 @@
-package org.sky.WebPush;
+package org.sky.WebPush.Config;
 
-import org.sky.WebPush.Config.WebPushProperties;
-import org.sky.WebPush.Service.Impl.PushServiceImpl;
+import org.sky.WebPush.Service.Impl.WebSocketPushServiceImpl;
 import org.sky.WebPush.Service.PushService;
 import org.sky.WebPush.Single.SingleSocketHandler;
-import org.sky.WebPush.Single.SingleWebPushClient;
+import org.sky.WebPush.Single.SingleWebPushServer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -26,9 +25,16 @@ public class WebPushAutoConfiguration {
             throw new RuntimeException("singeSocketHandler is null");
         }
         if ("single".equals(WebPushProperties.getMode())) {
-            new SingleWebPushClient(WebPushProperties.getPort(),
-                    WebPushProperties.getUrl(), singeSocketHandler).run();
+            //多线程启动
+            new Thread(() -> {
+                try {
+                    new SingleWebPushServer(WebPushProperties.getPort(),
+                            WebPushProperties.getUrl(), singeSocketHandler).run();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
         }
-        return new PushServiceImpl();
+        return new WebSocketPushServiceImpl();
     }
 }

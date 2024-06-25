@@ -13,7 +13,7 @@ import org.sky.WebPush.General.WebPushClient;
 
 //单机模式下的socket
 @ChannelHandler.Sharable
-public class SingleWebPushClient extends WebPushClient {
+public class SingleWebPushServer extends WebPushClient {
     //端口
     private final int port;
     private final String url;
@@ -21,7 +21,7 @@ public class SingleWebPushClient extends WebPushClient {
     private final SingleSocketHandler singleSocketHandler;
 
 
-    public SingleWebPushClient(int port, String url,
+    public SingleWebPushServer(int port, String url,
                                SingleSocketHandler singleSocketHandler) {
         this.port = port;
         this.url = url;
@@ -42,7 +42,7 @@ public class SingleWebPushClient extends WebPushClient {
                             p.addLast(new HttpServerCodec());
                             p.addLast(new ChunkedWriteHandler());
                             p.addLast(new HttpObjectAggregator(65536));
-                            p.addLast(new IdleStateHandler(10,0, 0));
+                            p.addLast(new IdleStateHandler(0,0, 120));
                             p.addLast(singleSocketHandler);
                         }
                     });

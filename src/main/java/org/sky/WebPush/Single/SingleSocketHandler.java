@@ -9,7 +9,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
 import org.sky.WebPush.Config.WebPushProperties;
-import org.sky.WebPush.General.WebSocketGuard;
+import org.sky.WebPush.General.WebGuard;
 import org.sky.WebPush.Global.ChannelGlobal;
 
 import java.util.List;
@@ -20,27 +20,27 @@ import static io.netty.handler.codec.http.HttpUtil.isKeepAlive;
 @ChannelHandler.Sharable
 public class SingleSocketHandler extends SimpleChannelInboundHandler<Object> {
 
-    private final WebSocketGuard webSocketGuard;
+    private final WebGuard webGuard;
     private WebSocketServerHandshaker handShaker;
     private final String url;
     private final int port;
 
-    public SingleSocketHandler(String url, int port, WebSocketGuard webSocketGuard) {
+    public SingleSocketHandler(String url, int port, WebGuard webGuard) {
         this.url = url;
         this.port = port;
-        this.webSocketGuard = webSocketGuard;
+        this.webGuard = webGuard;
     }
 
-    public SingleSocketHandler(WebSocketGuard webSocketGuard) {
+    public SingleSocketHandler(WebGuard webGuard) {
         this.url = WebPushProperties.getUrl();
         this.port = WebPushProperties.getPort();
-        this.webSocketGuard = webSocketGuard;
+        this.webGuard = webGuard;
     }
 
     public SingleSocketHandler(){
         this.url = WebPushProperties.getUrl();
         this.port = WebPushProperties.getPort();
-        this.webSocketGuard = new WebSocketGuard() {
+        this.webGuard = new WebGuard() {
             @Override
             public boolean hasPermission(String userId, String token) {
                 return true;
@@ -108,7 +108,7 @@ public class SingleSocketHandler extends SimpleChannelInboundHandler<Object> {
         }
         // 返回应答消息
         String request = ((TextWebSocketFrame) frame).text();
-        if(request.equals("heart")){
+        if(request.equals("ping")){
             //心跳包
             ctx.channel().writeAndFlush(new TextWebSocketFrame("heart"));
             return;
@@ -145,7 +145,7 @@ public class SingleSocketHandler extends SimpleChannelInboundHandler<Object> {
         if (userIds != null && !userIds.isEmpty() && tokens != null && !tokens.isEmpty()) {
             String userId = userIds.get(0);
             String token = tokens.get(0);
-            if (!webSocketGuard.hasPermission(userId, token)) {
+            if (!webGuard.hasPermission(userId, token)) {
                 sendHttpResponse(ctx, req, new DefaultFullHttpResponse(
                         HttpVersion.HTTP_1_1, HttpResponseStatus.UNAUTHORIZED));
                 return;

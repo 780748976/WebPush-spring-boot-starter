@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.sky.WebPush.WebPushAutoConfiguration
+org.sky.WebPush.Config.WebPushAutoConfiguration

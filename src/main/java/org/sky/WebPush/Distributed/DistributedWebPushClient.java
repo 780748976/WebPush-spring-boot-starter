@@ -11,25 +11,24 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import org.sky.WebPush.General.HttpRequestHandler;
 import org.sky.WebPush.General.WebPushClient;
-import org.sky.WebPush.General.WebSocketGuard;
+import org.sky.WebPush.General.WebGuard;
 
 //分布式模式下的socket
 public class DistributedWebPushClient extends WebPushClient {//端口
-    private final int port;
+    /*private final int port;
     private final String url;
     //为请求添加字段
     private final HttpRequestHandler httpRequestHandler;
     //websocket连接权限判断
-    private WebSocketGuard webSocketGuard;
+    private WebGuard webGuard;
 
     public DistributedWebPushClient(int port, String url,
-                                    HttpRequestHandler httpRequestHandler, WebSocketGuard WebSocketGuard) {
+                                    HttpRequestHandler httpRequestHandler, WebGuard WebGuard) {
         this.port = port;
         this.url = url;
         this.httpRequestHandler = httpRequestHandler;
-        this.webSocketGuard = WebSocketGuard;
+        this.webGuard = WebGuard;
     }
 
     public DistributedWebPushClient(int port, String url, HttpRequestHandler httpRequestHandler) {
@@ -63,5 +62,5 @@ public class DistributedWebPushClient extends WebPushClient {//端口
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
-    }
+    }*/
 }
